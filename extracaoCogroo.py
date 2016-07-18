@@ -1,10 +1,19 @@
+# coding=utf-8
+
 def extracaoCogroo(diretorioTrabalho, categUtilizadas, arquivo, dicFormatado):
-	vetor = list()
-	
+	vetorEntrada = list()
+	vetorIO = list()
+	# dicionario = list()
+	# with open ('Profissao_Titulo.txt', encoding="utf8") as dicForm:
+	# 	for linha in dicForm.readlines():
+	# 		dicionario.append(linha.split(';'))
+
+	# print (dicionario)
+
 	with open(arquivo) as texto:
+		features = list()
 		
 		for linha in texto.readlines():
-			features = list()
 			dic = dict()
 
 			if linha[0]!='I':
@@ -12,7 +21,7 @@ def extracaoCogroo(diretorioTrabalho, categUtilizadas, arquivo, dicFormatado):
 				lista = linha.split('\t')
 				dic["ID_S"] = (lista[0])
 				dic["ID"] = (lista[1])
-		
+
 				if dic["ID"] == 0:
 					features = list()
 
@@ -45,32 +54,37 @@ def extracaoCogroo(diretorioTrabalho, categUtilizadas, arquivo, dicFormatado):
 
 					dic["NE"] = 'null'
 				
-				if lista[10][:-1] != '-':
 
-					features = lista[10][1:-2].split('|') 
-				
 				if dic["ID"] in features:
 
 					dic["gerarFeature"] = 'true'
+					vetorIO.append("I")
 
-					if dic["lemma"].replace('_', ' ') in dicFormatado:
+					if dic["lemma"].replace('_', ' ').upper() == "DIRETOR":
 						dic["dicionario"] = 'true'
 
 					else: 
 						dic["dicionario"] = 'false'
 
 				else:
-
 					dic["gerarFeature"] = 'false'
 					dic["dicionario"] = 'false'
+					vetorIO.append("O")
 
-				vetor.append(dic)
-	file = open('teste.txt','w')
-	file.write(str(vetor))
+				if lista[10][:-1] != '-':
+
+					features = lista[10][1:-2].split('|') 
+					dic["gerarFeature"] = 'true'
+
+				vetorEntrada.append(dic)
+	file = open('vetorDeEntrada.txt','w')
+	file.write(str(vetorEntrada))
+	file.close()
+	file = open('vetorIO.txt','w')
+	file.write(str(vetorIO))
 	file.close()
  
 
-
 categorias = ['PES', 'LOC']
-dicionarios = ['./Dicionarios/Profissao_Titulo.txt']
+dicionarios = ['./Profissao_Titulo.txt']
 extracaoCogroo('./', categorias, 'ric-42664.cg', dicionarios)
