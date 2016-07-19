@@ -10,7 +10,7 @@ ID_S	ID	Token	Lemma	PoS	Feat	Head	NP	Structure	NE	Rel
 0	8	,	[]	,	-	-	O	ADVL	-	-
 0	9	Ronaldo_Lemos	[]	prop	M=S	O	NP	APP	PES	(11|12)
 0	10	,	[]	,	-	-	O	O	-	-
-0	11	diretor	[diretor]	n	M=S	O	NP	O	-	-
+0	11	ancião	[ancião]	n	M=S	O	NP	O	-	-
 0	12	de	[de]	prp	-	-	PP	O	-	-
 0	13	o	[o]	art	M=S	-	NP	O	-	-
 0	14	Creative_Commons_no_Brasil	[]	prop	M=S	O	NP	O	ORG	(11|12)
@@ -40,7 +40,7 @@ ID_S	ID	Token	Lemma	PoS	Feat	Head	NP	Structure	NE	Rel
 0	38	gincana	[gincana]	n	F=S	O	NP	SUBJ	-	-
 0	39	intitulada	[intitular]	v-pcp	F=S	-	NP	SUBJ	-	-
 0	40	"	["]	"	-	-	O	SUBJ	-	-
-0	41	Free_Beer_Pub_Quiz	[]	prop	M=S	O	NP	SUBJ	-	-
+0	41	Free_Beer_Pub_Quiz 	[]	prop	M=S	O	NP	SUBJ	-	-
 0	42	"	["]	"	-	-	NP	SUBJ	-	-
 0	43	,	[]	,	-	-	O	SUBJ	-	-
 0	44	em	[em]	prp	-	-	PP	ADVL	-	-
