@@ -12,13 +12,13 @@ def extracaoCogroo(diretorioTrabalho, categoriasUtilizadas, arquivo, dicFormatad
 
 	with open(arquivo) as texto:
 		features = list()
-		gerarFeature = None
+		gerarFeatureID = None
 		gerarFeatureNE = str()
 
 		for linha in texto.readlines():
 			dic = dict()
 
-			if linha[0]!='I':
+			if linha[0] != 'I':
 		
 				lista = linha.split('\t')
 				dic["ID_S"] = (lista[0])
@@ -80,20 +80,21 @@ def extracaoCogroo(diretorioTrabalho, categoriasUtilizadas, arquivo, dicFormatad
 
 				vetorEntrada.append(dic)
 
-				if gerarFeature == None:	
-					
-					if dic["NE"] in categoriasUtilizadas:
-						gerarFeature = int(dic["ID"])
+				if dic["NE"] in categoriasUtilizadas:
+
+					if gerarFeatureID == None:	
+						
+						gerarFeatureID = int(dic["ID"])
 						gerarFeatureNE = dic["NE"]
 
-				if gerarFeature != None:
+					else:
 
-					if dic["NE"] in categoriasUtilizadas and dic["NE"] != gerarFeatureNE:
-						
-						diferenca = int(dic["ID"]) - gerarFeature
-						
-						for index in range(vetorEntrada.index(dic)-diferenca, vetorEntrada.index(dic)+1):
-							vetorEntrada[index]["gerarFeature"] = True
+						if dic["NE"] != gerarFeatureNE:
+							
+							diferenca = int(dic["ID"]) - gerarFeatureID
+							
+							for index in range(vetorEntrada.index(dic)-diferenca, vetorEntrada.index(dic)+1):
+								vetorEntrada[index]["gerarFeature"] = True
 
 	file = open('vetorDeEntrada.txt','w')
 	file.write(str(vetorEntrada))
@@ -101,8 +102,9 @@ def extracaoCogroo(diretorioTrabalho, categoriasUtilizadas, arquivo, dicFormatad
 	file = open('vetorIO.txt','w')
 	file.write(str(vetorIO))
 	file.close()
- 
+ 	for i in vetorEntrada:
+ 		print i
 
-categorias = ['PES', 'ORG']
+categorias = ['PES', 'ORG', 'LOC']
 dicionarios = ['./Profissao_Titulo.txt']
 extracaoCogroo('./', categorias, 'ric-42664.cg', dicionarios)
