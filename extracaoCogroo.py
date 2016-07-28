@@ -4,7 +4,6 @@
 def extracaoCogroo(diretorioTrabalho, categoriasUtilizadas, arquivo, vetDicionarios):
     vetorEntrada = list()
     vetorIO = list()
-    dicionarios = list()
     dic = dict()
 
     # Le os txts de dicionarios e formata eles no dic
