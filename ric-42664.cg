@@ -10,7 +10,7 @@ ID_S	ID	Token	Lemma	PoS	Feat	Head	NP	Structure	NE	Rel
 0	8	,	[]	,	-	-	O	ADVL	-	-
 0	9	Ronaldo_Lemos	[]	prop	M=S	O	NP	APP	PES	(11|12)
 0	10	,	[]	,	-	-	O	O	-	-
-0	11	ancião	[ancião]	n	M=S	O	NP	O	-	-
+0	11	agente_policial	[agente_policial]	n	M=S	O	NP	O	-	-
 0	12	de	[de]	prp	-	-	PP	O	-	-
 0	13	o	[o]	art	M=S	-	NP	O	-	-
 0	14	Creative_Commons_no_Brasil	[]	prop	M=S	O	NP	O	ORG	(11|12)
@@ -57,6 +57,6 @@ ID_S	ID	Token	Lemma	PoS	Feat	Head	NP	Structure	NE	Rel
 0	55	propriedade	[propriedade]	n	F=S	O	NP	ACC	-	-
 0	56	intelectual	[intelectual]	adj	F=S	-	NP	ACC	-	-
 0	57	e	[e]	conj-c	-	-	O	ACC	-	-
-0	58	direitos	[direito]	n	M=P	O	NP	ACC	-	-
+0	58	balão	[balão]	n	M=P	O	NP	ACC	-	-
 0	59	autorais	[]	adj	M=P	-	NP	ACC	-	-
 0	60	.	[.]	.	-	-	O	O	-	-
