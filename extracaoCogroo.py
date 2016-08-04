@@ -121,19 +121,29 @@ def extracaoCogroo(diretorioTrabalho, categoriasUtilizadas, arquivo, vetDicionar
 
     return vetorEntrada, numeroRelacoes
 
-displaytime = time.strftime("%x %X", time.localtime())
-diretorioTrabalho = './saida_ORG_PES_Gabriel'+'_'+str(displaytime.replace('/', '-'))
-categorias = ['PES', 'ORG']
-dicionarios = ['../Dicionarios/Profissao_Titulo.txt']  # , '../Dicionarios/Localizacao.txt']
 
-extracaoCogroo(diretorioTrabalho, categorias, 'ric-42664.cg', dicionarios)
+def textosTreinamento(diretorioTrabalho, categUtilizadas, dicionarios, pasta):
+
+    #lista com o nome de todos os arquivos do diretorio
+    arquivos = os.listdir(os.path.expanduser(pasta))
+    arquivos.sort(comparar)
+    entradas = []
+    relacoesTotal = 0
+
+    for arquivo in arquivos:
+        if(not arquivo.endswith('~')):  # evita arquivos temporários
+            textos, relacoesTotalAux = extracaoCogroo(diretorioTrabalho, categUtilizadas, pasta+arquivo, dicionarios)
+            relacoesTotal += relacoesTotalAux
+            entradas.append((arquivo, textos))
+
+    return entradas, relacoesTotal
 
 
-# def comparar(x, y):
+def comparar(x, y):
 
-#     if x.lower() > y.lower():
-#         return 1
-#     elif x.lower() == y.lower():
-#         return 0
-#     else:
-#         return -1
+    if x.lower() > y.lower():
+        return 1
+    elif x.lower() == y.lower():
+        return 0
+    else:
+        return -1
