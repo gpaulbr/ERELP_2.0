@@ -116,15 +116,27 @@ def extracaoCogroo(diretorioTrabalho, categoriasUtilizadas, arquivo, vetDicionar
     file.write(str(vetorIO)+'\n')
     file.close()
 
-    for i in vetorEntrada:
+    for i in range(len(vetorEntrada)):
+        if vetorEntrada[i]["gerarFeature"]:
+            extrai_features(diretorioTrabalho, vetorEntrada, i)
         print i
 
     return vetorEntrada, numeroRelacoes
 
 
+def comparar(x, y):
+
+    if x.lower() > y.lower():
+        return 1
+    elif x.lower() == y.lower():
+        return 0
+    else:
+        return -1
+
+
 def textosTreinamento(diretorioTrabalho, categUtilizadas, dicionarios, pasta):
 
-    #lista com o nome de todos os arquivos do diretorio
+    # lista com o nome de todos os arquivos do diretorio
     arquivos = os.listdir(os.path.expanduser(pasta))
     arquivos.sort(comparar)
     entradas = []
@@ -139,11 +151,8 @@ def textosTreinamento(diretorioTrabalho, categUtilizadas, dicionarios, pasta):
     return entradas, relacoesTotal
 
 
-def comparar(x, y):
+# função que gera o vetor de features das palavras marcadas
+def extrai_features(diretorioTrabalho, vetor, indice):
 
-    if x.lower() > y.lower():
-        return 1
-    elif x.lower() == y.lower():
-        return 0
-    else:
-        return -1
+    features = dict()
+    print vetor[indice]
