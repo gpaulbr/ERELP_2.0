@@ -119,7 +119,6 @@ def extracaoCogroo(diretorioTrabalho, categoriasUtilizadas, arquivo, vetDicionar
     for i in range(len(vetorEntrada)):
         if vetorEntrada[i]["gerarFeature"]:
             extrai_features(diretorioTrabalho, vetorEntrada, i)
-        print i
 
     return vetorEntrada, numeroRelacoes
 
@@ -152,7 +151,19 @@ def textosTreinamento(diretorioTrabalho, categUtilizadas, dicionarios, pasta):
 
 
 # função que gera o vetor de features das palavras marcadas
-def extrai_features(diretorioTrabalho, vetor, indice):
+def extrai_features(diretorioTrabalho, vetor, ind):
 
     features = dict()
-    print vetor[indice]
+
+    features["palavra"] = vetor[ind]["lemma"].lower()
+    features["palavraOriginal"] = vetor[ind]["lemma"]
+    features["dicionario"] = 'não'
+
+    if vetor[ind]["dicionario"]:
+        features["dicionario"] = 'sim'
+
+    features["clas"] = vetor[ind]["NE"]
+    features["POSTag"] = vetor[ind]["PoS"]
+    features["phraseTag"] = vetor[ind]["Structure"]
+
+    print features
