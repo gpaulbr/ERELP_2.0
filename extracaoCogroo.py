@@ -157,10 +157,16 @@ def extrai_features(diretorioTrabalho, vetor, ind):
 
     features["palavra"] = vetor[ind]["lemma"].lower()
     features["palavraOriginal"] = vetor[ind]["lemma"]
-    features["dicionario"] = 'não'
 
     if vetor[ind]["dicionario"]:
         features["dicionario"] = 'sim'
+    else:
+        features["dicionario"] = 'não'
+
+    if vetor[ind]["Head"] == 'O':
+        features["nucleo"] = 'sim'
+    else:
+        features["nucleo"] = 'nao'
 
     features["clas"] = vetor[ind]["NE"]
     features["POSTag"] = vetor[ind]["PoS"]
