@@ -1,7 +1,7 @@
 # coding=utf-8
 
-import time
 import os
+
 
 def extracaoCogroo(diretorioTrabalho, categoriasUtilizadas, arquivo, vetDicionarios):
     vetorEntrada = list()
