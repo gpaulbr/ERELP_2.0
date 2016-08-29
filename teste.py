@@ -11,6 +11,7 @@ entrada, relacoes = extracaoCogroo.textosTreinamento(diretorioTrabalho, categori
 # file.write(str(entrada))
 # file.close()
 
+print ('--------------------------------------------------')
 print entrada
 print ('--------------------------------------------------')
 print relacoes
