@@ -191,8 +191,6 @@ def extrai_features(diretorioTrabalho, vetor, ind):
         tamanho += 1
         iterador += 1
 
-    print tamanho
-    print POSLongRangeSemEN
     features["POSLongRangeSemEN"] = POSLongRangeSemEN[:-1]
     features["tamanho"] = tamanho
 
@@ -327,5 +325,4 @@ def extrai_features(diretorioTrabalho, vetor, ind):
     elif adverbio == "adv":
         features["adv"] = "sim"
 
-    print len(features)
     print (features)
