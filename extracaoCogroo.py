@@ -168,6 +168,11 @@ def extrai_features(diretorioTrabalho, vetor, ind):
     else:
         features["nucleo"] = 'nao'
 
+    if vetor[ind]["Structure"] == 'ACC':
+        features["objetoDireto"] = 'sim'
+    else:
+        features["objetoDireto"] = 'nao'
+
     features["clas"] = vetor[ind]["NE"]
     features["POSTag"] = vetor[ind]["PoS"]
     features["phraseTag"] = vetor[ind]["Structure"]
