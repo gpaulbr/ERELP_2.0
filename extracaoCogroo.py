@@ -306,9 +306,43 @@ def extrai_features(diretorioTrabalho, vetor, ind):
     else:
         features["next2Verbo"] = "nao"
 
-    features["adv"] = "não"
-    features["advPrep"] = "não"
-    features["advPrepArt"] = "não"
+    features["verbArtigo"] = "nao"
+    features["verbPrep"] = "nao"
+    features["verbPrepArt"] = "nao"
+    features["subsPrep"] = "nao"
+
+    if(ind < len(vetor)-1):
+
+        if(vetor[ind]['PoS'][0] == 'v'):
+
+            if(vetor[ind+1]['PoS'] == 'art'):
+                tipoFrase = 'verbArtigo'
+
+            elif(vetor[ind+1]['PoS'] == 'prp'):
+                tipoFrase = 'verbPrep'
+
+                if(ind < len(vetor)-2):
+                    if(vetor[ind+2]['PoS'] == 'art'):
+                        tipoFrase = 'verbPrepArt'
+
+        elif(vetor[ind]['PoS'] == 'n' and vetor[ind+1]['PoS'] == 'prp'):
+                tipoFrase = 'subsPrep'
+
+        if tipoFrase == 'subsPrep':
+            features["subsPrep"] = "sim"
+
+        elif tipoFrase == 'subsPrep':
+            features["verbPrepArt"] = "sim"
+
+        elif tipoFrase == 'subsPrep':
+            features["verbPrep"] = "sim"
+
+        elif tipoFrase == 'subsPrep':
+            features["verbArtigo"] = "sim"
+
+    features["adv"] = "nao"
+    features["advPrep"] = "nao"
+    features["advPrepArt"] = "nao"
     adverbio = str()
 
     # verifica se a palavra eh um adverbio
