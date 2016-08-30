@@ -61,7 +61,7 @@ def extracaoCogroo(diretorioTrabalho, categoriasUtilizadas, arquivo, vetDicionar
 
             else:
 
-                dicPalavra["NE"] = 'null'
+                dicPalavra["NE"] = "null"
 
             if lista[10][:-1] != '-':
 
@@ -159,19 +159,19 @@ def extrai_features(diretorioTrabalho, vetor, ind):
     features["palavraOriginal"] = vetor[ind]["lemma"]
 
     if vetor[ind]["dicionario"]:
-        features["dicionario"] = 'sim'
+        features["dicionario"] = "sim"
     else:
-        features["dicionario"] = 'não'
+        features["dicionario"] = "não"
 
     if vetor[ind]["Head"] == 'O':
-        features["nucleo"] = 'sim'
+        features["nucleo"] = "sim"
     else:
-        features["nucleo"] = 'nao'
+        features["nucleo"] = "nao"
 
     if vetor[ind]["Structure"] == 'ACC':
-        features["objetoDireto"] = 'sim'
+        features["objetoDireto"] = "sim"
     else:
-        features["objetoDireto"] = 'nao'
+        features["objetoDireto"] = "nao"
 
     features["clas"] = vetor[ind]["NE"]
     features["POSTag"] = vetor[ind]["PoS"]
@@ -182,17 +182,29 @@ def extrai_features(diretorioTrabalho, vetor, ind):
     POSLongRangeSemEN = str()
 
     # inicio da logica que calcula de onde até onde o programa deve iterar
-    while vetor[iterador]["NE"] == 'null':
+    while vetor[iterador]["NE"] == "null":
         iterador -= 1
 
-    if vetor[ind]["NE"] != 'null' and not vetor[ind+1]['gerarFeature']:
-        while vetor[iterador-1]["NE"] == 'null':
+    if vetor[ind]["NE"] != "null" and not vetor[ind+1]['gerarFeature']:
+        while vetor[iterador-1]["NE"] == "null":
             iterador -= 1
         iterador -= 1
     # fim da lógica
 
-    while vetor[iterador+1]["NE"] == 'null':  # itera entre as ENs da relacao
+    while vetor[iterador+1]["NE"] == "null":  # itera entre as ENs da relacao
         POSLongRangeSemEN = POSLongRangeSemEN + vetor[iterador+1]["PoS"] + " "
+        if vetor[iterador-1]["PoS"] == "n":
+            if vetor[iterador]["lemma"] == ",":
+                inicioAposto = iterador
+                fimAposto = int()
+                for iterador2 in range(inicioAposto, len(vetor)):
+                    print "entrei aqui" + str(iterador2)
+                    if vetor[iterador2]["lemma"] == ",":
+                        fimAposto = iterador2
+                        break
+                for indice in range(inicioAposto, fimAposto):
+                    print vetor[indice]["lemma"]
+
         tamanho += 1
         iterador += 1
 
@@ -312,7 +324,7 @@ def extrai_features(diretorioTrabalho, vetor, ind):
     features["subsPrep"] = "nao"
 
     if(ind < len(vetor)-1):
-
+        tipoFrase = str()
         if(vetor[ind]['PoS'][0] == 'v'):
 
             if(vetor[ind+1]['PoS'] == 'art'):
