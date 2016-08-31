@@ -191,19 +191,43 @@ def extrai_features(diretorioTrabalho, vetor, ind):
         iterador -= 1
     # fim da lógica
 
+    features["estaAposto"] = 'nao'
+    features["prevApost"] = 'nao'
+    features["prev2Apost"] = 'nao'
+    features["nextApost"] = 'nao'
+    features["next2Apost"] = 'nao'
+    features["nucleoAposto"] = 'nao'
+
     while vetor[iterador+1]["NE"] == "null":  # itera entre as ENs da relacao
         POSLongRangeSemEN = POSLongRangeSemEN + vetor[iterador+1]["PoS"] + " "
-        if vetor[iterador-1]["PoS"] == "n":
-            if vetor[iterador]["lemma"] == ",":
-                inicioAposto = iterador
-                fimAposto = int()
-                for iterador2 in range(inicioAposto, len(vetor)):
-                    print "entrei aqui" + str(iterador2)
-                    if vetor[iterador2]["lemma"] == ",":
-                        fimAposto = iterador2
-                        break
-                for indice in range(inicioAposto, fimAposto):
-                    print vetor[indice]["lemma"]
+        # if vetor[iterador-1]["PoS"] == "n":
+        if vetor[iterador]["lemma"] == ",":
+            inicioAposto = iterador + 1  # Inicio do aposto sem virgula
+            fimAposto = int()
+            for iterador2 in range(inicioAposto, len(vetor)):
+                print "entrei aqui" + str(iterador2)
+                if vetor[iterador2]["lemma"] == ",":
+                    fimAposto = iterador2
+                    print ("entrei for de dentro " + str(inicioAposto) + " " +str(fimAposto))
+                    if ind in range(inicioAposto, fimAposto):
+                        print vetor[ind]["lemma"] + " esta no aposto"
+                        features["estaAposto"] = 'sim'
+                        if vetor[ind]["PoS"] == "n":
+                            print vetor[ind]["lemma"] + " eh nucleo do aposto"
+                        features["nucleoAposto"] = 'sim'
+                    if ind+1 in range(inicioAposto, fimAposto):
+                        print vetor[ind+1]["lemma"] + " esta no aposto"
+                        features["nextApost"] = 'sim'
+                    if ind+2 in range(inicioAposto, fimAposto):
+                        print vetor[ind+2]["lemma"] + " esta no aposto"
+                        features["next2Apost"] = 'sim'
+                    if ind-1 in range(inicioAposto, fimAposto):
+                        print vetor[ind-1]["lemma"] + " esta no aposto"
+                        features["prevApost"] = 'sim'
+                    if ind-2 in range(inicioAposto, fimAposto):
+                        print vetor[ind-2]["lemma"] + " esta no aposto"
+                        features["prev2Apost"] = 'sim'
+                    break
 
         tamanho += 1
         iterador += 1
