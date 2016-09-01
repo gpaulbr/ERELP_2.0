@@ -147,7 +147,7 @@ def textosTreinamento(diretorioTrabalho, categUtilizadas, dicionarios, pasta):
 
     for arquivo in arquivos:
         if(not arquivo.endswith('~')):  # evita arquivos temporários
-            textos, relacoesTotalAux = extracaoCogroo(diretorioTrabalho, categUtilizadas, pasta+arquivo, dicionarios)
+            textos, relacoesTotalAux = extracaoCogroo(diretorioTrabalho, categUtilizadas, pasta + arquivo, dicionarios)
             relacoesTotal += relacoesTotalAux
             entradas.append((arquivo, textos))
 
@@ -203,7 +203,6 @@ def extrai_features(diretorioTrabalho, vetor, ind):
     features["nucleoAposto"] = 'nao'
 
     while vetor[iterador+1]["NE"] == "null":  # itera entre as ENs da relacao
-        POSLongRangeSemEN = POSLongRangeSemEN + vetor[iterador+1]["PoS"] + " "
         # if vetor[iterador-1]["PoS"] == "n":
         if vetor[iterador]["lemma"] == "," or vetor[iterador]["lemma"] == "-" or vetor[iterador]["lemma"] == "(":
             inicioAposto = iterador + 1  # Inicio do aposto sem virgula
@@ -217,7 +216,7 @@ def extrai_features(diretorioTrabalho, vetor, ind):
                     if ind in range(inicioAposto, fimAposto):
                         features["estaAposto"] = 'sim'
 
-                        if vetor[ind]["PoS"] == "n":
+                        if vetor[ind]["PoS"] == "n" or vetor[ind]["PoS"] == "pron-pers":
                             features["nucleoAposto"] = 'sim'
 
                     if ind+1 in range(inicioAposto, fimAposto):
@@ -231,6 +230,9 @@ def extrai_features(diretorioTrabalho, vetor, ind):
 
                     break
 
+        # informacao de PoS para todas as palavras entre as EN.
+        POSLongRangeSemEN = POSLongRangeSemEN + vetor[iterador+1]["PoS"] + " "
+
         tamanho += 1
         iterador += 1
 
@@ -242,42 +244,40 @@ def extrai_features(diretorioTrabalho, vetor, ind):
         features["prevClas"] = vetor[ind-1]["NE"]
         features["prevW"] = vetor[ind-1]["lemma"].lower()
         features["prevT"] = vetor[ind-1]["PoS"].lower()  # POS
-        # NEXT?
-        features["next0CT"] = vetor[ind-1]["PoS"] + " " + vetor[ind]["PoS"]  # POS palavras consecutivas
+        features["prev1CT"] = vetor[ind-1]["PoS"] + " " + vetor[ind]["PoS"]  # POS palavras consecutivas
         features["prevPT"] = vetor[ind-1]["Structure"]
         features["prev0CPT"] = vetor[ind-1]["Structure"] + " " + vetor[ind]["Structure"]  # sintatica palavras consecutivas
-        # NEXT?
-        features["next0CW"] = vetor[ind-1]["lemma"] + " " + vetor[ind]["lemma"]  # palavras consecutivas
+        features["prev1CW"] = vetor[ind-1]["lemma"] + " " + vetor[ind]["lemma"]  # palavras consecutivas
 
     else:
 
         features["prevClas"] = "null"
         features["prevW"] = "null"
         features["prevT"] = "null"
-        features["next0CT"] = "null"
+        features["prev1CT"] = "null"
         features["prevPT"] = "null"
         features["prev0CPT"] = "null"
-        features["next0CW"] = "null"
+        features["prev1CW"] = "null"
 
     if ind > 1:
 
         features["prev2Clas"] = vetor[ind-2]["NE"]
         features["prev2W"] = vetor[ind-2]["lemma"].lower()
         features["prev2T"] = vetor[ind-2]["PoS"].lower()  # POS
-        features["prev1CT"] = vetor[ind-2]["PoS"] + " " + vetor[ind-1]["PoS"]  # POS palavras consecutivas
+        features["prev2CT"] = vetor[ind-2]["PoS"] + " " + vetor[ind-1]["PoS"]  # POS palavras consecutivas
         features["prev2PT"] = vetor[ind-2]["Structure"]
         features["prev1CPT"] = vetor[ind-2]["Structure"] + " " + vetor[ind-1]["Structure"]  # sintatica palavras consecutivas
-        features["prev1CW"] = vetor[ind-2]["lemma"] + " " + vetor[ind-1]["lemma"]  # palavras consecutivas
+        features["prev2CW"] = vetor[ind-2]["lemma"] + " " + vetor[ind-1]["lemma"]  # palavras consecutivas
 
     else:
 
         features["prev2Clas"] = "null"
         features["prev2W"] = "null"
         features["prev2T"] = "null"
-        features["prev1CT"] = "null"
+        features["prev2CT"] = "null"
         features["prev2PT"] = "null"
         features["prev1CPT"] = "null"
-        features["prev1CW"] = "null"
+        features["prev2CW"] = "null"
 
     if ind < len(vetor)-1:
 
@@ -405,8 +405,8 @@ def extrai_features(diretorioTrabalho, vetor, ind):
     print len(features)
     print (features)
 
-    file = open(diretorioTrabalho+'/vetorDeFeatures.txt','a')
-    file.write(str(features)+'\n')
+    file = open(diretorioTrabalho + '/vetorDeFeatures.txt' , 'a')
+    file.write(str(features) + '\n')
     file.close()
 
     return features
