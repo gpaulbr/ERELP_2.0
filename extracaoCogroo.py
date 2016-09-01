@@ -201,9 +201,10 @@ def extrai_features(diretorioTrabalho, vetor, ind):
     features["nextApost"] = 'nao'
     features["next2Apost"] = 'nao'
     features["nucleoAposto"] = 'nao'
+    nucleoApp = True  # variavel de controle para saber se o aposto já possui núcleo
 
     while vetor[iterador+1]["NE"] == "null":  # itera entre as ENs da relacao
-        # if vetor[iterador-1]["PoS"] == "n":
+
         if vetor[iterador]["lemma"] == "," or vetor[iterador]["lemma"] == "-" or vetor[iterador]["lemma"] == "(":
             inicioAposto = iterador + 1  # Inicio do aposto sem virgula
             fimAposto = int()
@@ -213,11 +214,18 @@ def extrai_features(diretorioTrabalho, vetor, ind):
                 if vetor[iterador2]["lemma"] == "," or vetor[iterador2]["lemma"] == "-" or vetor[iterador2]["lemma"] == ")":
                     fimAposto = iterador2
 
+                    for iNucleo in range(inicioAposto, fimAposto):
+                        if (nucleoApp):
+                            if (vetor[iNucleo]["PoS"] == "n" or vetor[iNucleo]["PoS"] == "pron-pers"):
+                                nucleoApp = False
+                                if iNucleo == ind:
+                                    features["nucleoAposto"] = 'sim'
+
                     if ind in range(inicioAposto, fimAposto):
                         features["estaAposto"] = 'sim'
 
-                        if vetor[ind]["PoS"] == "n" or vetor[ind]["PoS"] == "pron-pers":
-                            features["nucleoAposto"] = 'sim'
+                        # if nucleoApp and (vetor[ind]["PoS"] == "n" or vetor[ind]["PoS"] == "pron-pers"):
+                        #     features["nucleoAposto"] = 'sim'
 
                     if ind+1 in range(inicioAposto, fimAposto):
                         features["nextApost"] = 'sim'
@@ -405,7 +413,7 @@ def extrai_features(diretorioTrabalho, vetor, ind):
     print len(features)
     print (features)
 
-    file = open(diretorioTrabalho + '/vetorDeFeatures.txt' , 'a')
+    file = open(diretorioTrabalho + '/vetorDeFeatures.txt', 'a')
     file.write(str(features) + '\n')
     file.close()
 
