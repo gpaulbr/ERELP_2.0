@@ -9,6 +9,8 @@ def extracaoCogroo(diretorioTrabalho, categoriasUtilizadas, arquivo, vetDicionar
     # Dicionario com as palavras dos arquivos de dicionarios passados para o método
     dic = dict()
     numeroRelacoes = 0
+    listaFeatures = list()
+    listaFormatada = list()
 
     # Le os txts de dicionarios e formata eles no dic
     for dicionario in vetDicionarios:
@@ -118,9 +120,11 @@ def extracaoCogroo(diretorioTrabalho, categoriasUtilizadas, arquivo, vetDicionar
 
     for i in range(len(vetorEntrada)):
         if vetorEntrada[i]["gerarFeature"]:
-            extrai_features(diretorioTrabalho, vetorEntrada, i)
+            listaFeatures.append(extrai_features(diretorioTrabalho, vetorEntrada, i))
 
-    return vetorEntrada, numeroRelacoes
+    listaFormatada.append(listaFeatures)
+
+    return listaFormatada, numeroRelacoes
 
 
 def comparar(x, y):
@@ -404,3 +408,5 @@ def extrai_features(diretorioTrabalho, vetor, ind):
     file = open(diretorioTrabalho+'/vetorDeFeatures.txt','a')
     file.write(str(features)+'\n')
     file.close()
+
+    return features
