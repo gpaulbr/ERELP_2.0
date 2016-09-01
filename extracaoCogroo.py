@@ -201,32 +201,30 @@ def extrai_features(diretorioTrabalho, vetor, ind):
     while vetor[iterador+1]["NE"] == "null":  # itera entre as ENs da relacao
         POSLongRangeSemEN = POSLongRangeSemEN + vetor[iterador+1]["PoS"] + " "
         # if vetor[iterador-1]["PoS"] == "n":
-        if vetor[iterador]["lemma"] == ",":
+        if vetor[iterador]["lemma"] == "," or vetor[iterador]["lemma"] == "-" or vetor[iterador]["lemma"] == "(":
             inicioAposto = iterador + 1  # Inicio do aposto sem virgula
             fimAposto = int()
+
             for iterador2 in range(inicioAposto, len(vetor)):
-                print "entrei aqui" + str(iterador2)
-                if vetor[iterador2]["lemma"] == ",":
+
+                if vetor[iterador2]["lemma"] == "," or vetor[iterador2]["lemma"] == "-" or vetor[iterador2]["lemma"] == ")":
                     fimAposto = iterador2
-                    print ("entrei for de dentro " + str(inicioAposto) + " " +str(fimAposto))
+
                     if ind in range(inicioAposto, fimAposto):
-                        print vetor[ind]["lemma"] + " esta no aposto"
                         features["estaAposto"] = 'sim'
+
                         if vetor[ind]["PoS"] == "n":
-                            print vetor[ind]["lemma"] + " eh nucleo do aposto"
-                        features["nucleoAposto"] = 'sim'
+                            features["nucleoAposto"] = 'sim'
+
                     if ind+1 in range(inicioAposto, fimAposto):
-                        print vetor[ind+1]["lemma"] + " esta no aposto"
                         features["nextApost"] = 'sim'
                     if ind+2 in range(inicioAposto, fimAposto):
-                        print vetor[ind+2]["lemma"] + " esta no aposto"
                         features["next2Apost"] = 'sim'
                     if ind-1 in range(inicioAposto, fimAposto):
-                        print vetor[ind-1]["lemma"] + " esta no aposto"
                         features["prevApost"] = 'sim'
                     if ind-2 in range(inicioAposto, fimAposto):
-                        print vetor[ind-2]["lemma"] + " esta no aposto"
                         features["prev2Apost"] = 'sim'
+
                     break
 
         tamanho += 1
@@ -400,4 +398,9 @@ def extrai_features(diretorioTrabalho, vetor, ind):
     elif adverbio == "adv":
         features["adv"] = "sim"
 
+    print len(features)
     print (features)
+
+    file = open(diretorioTrabalho+'/vetorDeFeatures.txt','a')
+    file.write(str(features)+'\n')
+    file.close()
