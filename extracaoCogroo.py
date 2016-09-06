@@ -25,28 +25,29 @@ def extracaoCogroo(diretorioTrabalho, categoriasUtilizadas, arquivo, vetDicionar
 
         next(texto)
 
-        for linha in texto:
+        for linha in texto:  # Itera entre as linhas do texto (cada linha representa uma palavra)
 
             dicPalavra = dict()
+            linha = linha[0:linha.find('\n')]  # Remove o \n do final da linha
+            lista = linha.split('\t')  # Cria uma lista com as informações
 
-            lista = linha.split('\t')
-            dicPalavra["ID_S"] = (lista[0])
-            dicPalavra["ID"] = (lista[1])
+            dicPalavra["ID_S"] = (lista[0])  # Insere informação de ID_S na lista
+            dicPalavra["ID"] = (lista[1])  # # Insere informação de ID na lista
 
             if dicPalavra["ID"] == 0:
-                vetorRel = list()
+                vetorRel = list()  # Reseta o vetor de Relacoes quando começa uma nova sentença
 
-            if lista[3] == '[]':
+            if lista[3] == '[]':  # Se não possui a forma canônica ele insere a palavra
 
                 dicPalavra["lemma"] = lista[2]
 
             else:
 
-                dicPalavra["lemma"] = (lista[3][1:-1])
+                dicPalavra["lemma"] = (lista[3][1:-1])  # Insere a forma canônica menos as chaves
 
             dicPalavra["PoS"] = (lista[4])
 
-            if lista[6] == 'O':
+            if lista[6] == 'O':  # Insere informação de núcleo
 
                 dicPalavra["Head"] = True
 
@@ -54,20 +55,22 @@ def extracaoCogroo(diretorioTrabalho, categoriasUtilizadas, arquivo, vetDicionar
 
                 dicPalavra["Head"] = False
 
-            dicPalavra["NP"] = (lista[7])
-            dicPalavra["Structure"] = (lista[8])
+            dicPalavra["NP"] = (lista[7])  # Insere NP
+            dicPalavra["Structure"] = (lista[8])  # Insere Informação sintática
 
             if lista[9] != '-':
 
-                dicPalavra["NE"] = (lista[9])
+                dicPalavra["NE"] = lista[9]  # Insere Informação de Entidade Nomeada
 
             else:
-
                 dicPalavra["NE"] = "null"
 
-            if lista[10][:-1] != '-':
+            try:
+                if lista[10] != '-':
 
-                vetorRel = lista[10][1:-2].split('|')
+                    vetorRel = lista[10][1:-1].split('|')  # Guarda as possições da coluna de REL
+            except:
+                pass
 
             dicPalavra["gerarFeature"] = False
 
@@ -85,7 +88,8 @@ def extracaoCogroo(diretorioTrabalho, categoriasUtilizadas, arquivo, vetDicionar
                 dicPalavra["dicionario"] = False
 
             if dicPalavra["ID"] in vetorRel:
-
+            # Verifica se a palavra está nas relações e adiciona no vetor de
+            # features
                 vetorIO.append("I")
                 numeroRelacoes += 1
 
@@ -94,6 +98,8 @@ def extracaoCogroo(diretorioTrabalho, categoriasUtilizadas, arquivo, vetDicionar
 
             vetorEntrada.append(dicPalavra)
 
+            # Marca as palavra entre duas EN da categorias utilizadas
+            # com gerarFeature = true
             if dicPalavra["NE"] in categoriasUtilizadas:
 
                 if gerarFeatureID is None:
@@ -223,9 +229,6 @@ def extrai_features(diretorioTrabalho, vetor, ind):
 
                     if ind in range(inicioAposto, fimAposto):
                         features["estaAposto"] = 'sim'
-
-                        # if nucleoApp and (vetor[ind]["PoS"] == "n" or vetor[ind]["PoS"] == "pron-pers"):
-                        #     features["nucleoAposto"] = 'sim'
 
                     if ind+1 in range(inicioAposto, fimAposto):
                         features["nextApost"] = 'sim'
