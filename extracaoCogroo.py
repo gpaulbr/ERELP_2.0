@@ -40,6 +40,8 @@ def extracaoCogroo(diretorioTrabalho, categoriasUtilizadas, arquivo, vetDicionar
             if dicPalavra["ID"] == 0:
                 vetorRel = list()  # Reseta o vetor de Relacoes quando começa uma nova sentença
 
+            dicPalavra["palavra"] = lista[2]
+
             if lista[3] == '[]':  # Se não possui a forma canônica ele insere a palavra
 
                 dicPalavra["lemma"] = lista[2]
