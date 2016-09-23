@@ -27,6 +27,9 @@ def extracaoCogroo(diretorioTrabalho, categoriasUtilizadas, arquivo, vetDicionar
 
         for linha in texto:  # Itera entre as linhas do texto (cada linha representa uma palavra)
 
+            if linha == '\n':
+                continue
+
             dicPalavra = dict()
             linha = linha[0:linha.find('\n')]  # Remove o \n do final da linha
             lista = linha.split('\t')  # Cria uma lista com as informações
@@ -116,7 +119,6 @@ def extracaoCogroo(diretorioTrabalho, categoriasUtilizadas, arquivo, vetDicionar
                         for index in range(vetorEntrada.index(dicPalavra)-diferenca, vetorEntrada.index(dicPalavra)+1):
                             vetorEntrada[index]["gerarFeature"] = True
 
-    os.mkdir(diretorioTrabalho)
     file = open(diretorioTrabalho+'/vetorDeEntrada.txt', 'a')
     file.write(str(vetorEntrada)+'\n')
     file.close()
